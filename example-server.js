@@ -10,8 +10,8 @@ const options = {
   server:         'staging',
   email:          'tarwich@gmail.com',
   agreeTos:       true,
-  domains:        ['voidray-test.herokuapp.com'],
-  approveDomains: ['voidray-test.herokuapp.com'],
+  domains:        ['test.voidray.co'],
+  approveDomains: ['test.voidray.co'],
 };
 
 const letsencrypt = LetsEncrypt.create(options);
