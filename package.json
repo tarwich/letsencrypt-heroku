@@ -17,6 +17,7 @@
   "dependencies": {
     "eslint-config-tarwich": "github:tarwich/eslint-config-tarwich",
     "letsencrypt": "2.1.7",
+    "log": "github:tarwich/node-log",
     "request-promise": "4.1.1"
   }
 }
