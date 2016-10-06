@@ -6,14 +6,12 @@ const http        = require('http');
 const LetsEncrypt = require('letsencrypt');
 const log         = require('log')('example-server');
 
-// 47722984.ngrok.io
-
 const options = {
   server:         'staging',
   email:          'tarwich@gmail.com',
   agreeTos:       true,
-  domains:        ['47722984.ngrok.io'],
-  approveDomains: ['47722984.ngrok.io'],
+  domains:        ['voidray-test.herokuapp.com'],
+  approveDomains: ['voidray-test.herokuapp.com'],
 };
 
 const letsencrypt = LetsEncrypt.create(options);
