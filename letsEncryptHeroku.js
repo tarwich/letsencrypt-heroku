@@ -51,7 +51,7 @@ let getCertificate = async(options => {
     else log.info('Updating Heroku certificate');
     wait(heroku.request({
       body: {
-        certificate_chain: certs.chain,
+        certificate_chain: certs.cert + '\n' + certs.chain,
         private_key:       certs.privkey,
       },
       method: endpoint ? 'PATCH' : 'POST',
@@ -87,6 +87,9 @@ module.exports = options => {
     LetsEncrypt.productionServerUrl :
     LetsEncrypt.stagingServerUrl
   ;
+  if (server === LetsEncrypt.productionServerUrl)
+    log.info('Using production server');
+  else log.warn('Using staging server');
   let letsencrypt = LetsEncrypt.create({server});
   getCertificate(Object.assign({}, baseOptions, options, {letsencrypt}));
   return letsencrypt.middleware();
