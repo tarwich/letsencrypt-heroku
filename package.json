@@ -1,5 +1,5 @@
 {
-  "name": "letsencrypt-middleware",
+  "name": "letsencrypt-heroku",
   "version": "1.0.0",
   "description": "Middleware that can be added to an express application in order to make it work with letsencrypt",
   "main": "index.js",
