@@ -51,7 +51,7 @@ let getCertificate = async(options => {
     else log.info('Updating Heroku certificate');
     wait(heroku.request({
       body: {
-        certificate_chain: certs.cert,
+        certificate_chain: certs.chain,
         private_key:       certs.privkey,
       },
       method: endpoint ? 'PATCH' : 'POST',
