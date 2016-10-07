@@ -9,15 +9,14 @@ const log         = require('log')('example-server');
 
 const baseOptions = {
   agreeTos: true,
-  email:    'tarwich@gmail.com',
-  server:   'staging',
+  server:   LetsEncrypt.stagingServerUrl,
 };
 
 let getCertificate = async(options => {
   try {
     const heroku = new Heroku({
       apiKey: options.apiKey,
-      app:    'voidray-test',
+      app:    options.appName,
     });
 
     // Get domains
@@ -86,6 +85,6 @@ module.exports = options => {
     LetsEncrypt.stagingServerUrl
   ;
   let letsencrypt = LetsEncrypt.create({server});
-  getCertificate(Object.assign({}, baseOptions, options, {letsencrypt}));
+  getCertificate(Object.assign({}, baseOptions, options, {letsencrypt, server}));
   return letsencrypt.middleware();
 };
