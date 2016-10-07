@@ -25,6 +25,7 @@ let getCertificate = async(options => {
       qs:     {kind: 'custom'},
       url:    '/domains',
     }));
+    log.info('Heroku domains', domains);
 
     // Unset the server, because it breaks lets encrypt
     delete options.server;
@@ -32,7 +33,7 @@ let getCertificate = async(options => {
     .filter(d => d.kind === 'custom')
     .map(d => d.hostname)
     ;
-    options.approveDomains = [...domains];
+    options.approveDomains = domains;
     assert(options.domains.length, 'You need to setup a custom domain in Heroku');
 
     // Get certs from letsencrypt
