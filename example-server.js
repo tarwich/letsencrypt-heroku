@@ -7,15 +7,15 @@ const express           = require('express');
 // Variables
 const app = express();
 
-app.use((request, response) => {
-  response.send('It\'s alive!');
-});
-
 app.use('/', letsEncryptHeroku({
   apiKey:  process.env.API_KEY,
   appName: 'voidray-test',
   email:   process.env.LETSENCRYPT_EMAIL,
 }));
+
+app.use((request, response) => {
+  response.send('It\'s alive!');
+});
 
 // Run the server
 let server = app.listen(process.env.PORT || 8080, () => {
