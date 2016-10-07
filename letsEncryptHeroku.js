@@ -81,9 +81,11 @@ module.exports = options => {
   assert(options.appName, 'appName is required');
   assert(options.apiKey,  'apiKey is required');
 
-  let letsencrypt = LetsEncrypt.create({
-    server: options.server || 'staging',
-  });
+  let server = options.server === 'production' ?
+    LetsEncrypt.productionServerUrl :
+    LetsEncrypt.stagingServerUrl
+  ;
+  let letsencrypt = LetsEncrypt.create({server});
   getCertificate(Object.assign({}, baseOptions, options, {letsencrypt}));
   return letsencrypt.middleware();
 };

@@ -11,14 +11,11 @@ app.use((request, response) => {
   response.send('It\'s alive!');
 });
 
-let letsEncrypt = letsEncryptHeroku({
-  apiKey:     process.env.API_KEY,
-  appName:    'voidray-test',
-  email:      process.env.LETSENCRYPT_EMAIL,
-  expressApp: app,
-});
-
-app.use(letsEncrypt);
+app.use(letsEncryptHeroku({
+  apiKey:  process.env.API_KEY,
+  appName: 'voidray-test',
+  email:   process.env.LETSENCRYPT_EMAIL,
+}));
 
 // Run the server
 let server = app.listen(process.env.PORT || 8080, () => {
