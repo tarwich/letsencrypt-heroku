@@ -11,18 +11,19 @@ app.use((request, response) => {
   response.send('It\'s alive!');
 });
 
-letsEncryptHeroku({
+let letsEncrypt = letsEncryptHeroku({
   apiKey:     process.env.API_KEY,
   appName:    'voidray-test',
   email:      process.env.LETSENCRYPT_EMAIL,
   expressApp: app,
-})
-.then(wrapperApp => {
-  // Run the server
-  let server = wrapperApp.listen(process.env.PORT || 8080, () => {
-    let href = server.address();
-    if (href.family === 'IPv6') href = `http://[${href.address}]:${href.port}/`;
-    else href = `http://${href.address}:${href.port}/`;
-    console.log('Server running at ' + href);
-  });
+});
+
+app.use(letsEncrypt);
+
+// Run the server
+let server = app.listen(process.env.PORT || 8080, () => {
+  let href = server.address();
+  if (href.family === 'IPv6') href = `http://[${href.address}]:${href.port}/`;
+  else href = `http://${href.address}:${href.port}/`;
+  console.log('Server running at ' + href);
 });
