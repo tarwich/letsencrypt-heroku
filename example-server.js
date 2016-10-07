@@ -1,7 +1,7 @@
 'use strict';
 
 // Libraries
-const letsEncryptHeroku = require('letsEncryptHeroku');
+const letsEncryptHeroku = require('./letsEncryptHeroku');
 const express           = require('express');
 
 // Variables
