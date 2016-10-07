@@ -11,7 +11,7 @@ app.use((request, response) => {
   response.send('It\'s alive!');
 });
 
-app.use(letsEncryptHeroku({
+app.use('/', letsEncryptHeroku({
   apiKey:  process.env.API_KEY,
   appName: 'voidray-test',
   email:   process.env.LETSENCRYPT_EMAIL,
