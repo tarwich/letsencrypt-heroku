@@ -11,6 +11,7 @@ app.use('/', letsEncryptHeroku({
   apiKey:  process.env.API_KEY,
   appName: 'voidray-test',
   email:   process.env.LETSENCRYPT_EMAIL,
+  server:  'production',
 }));
 
 app.use((request, response) => {
