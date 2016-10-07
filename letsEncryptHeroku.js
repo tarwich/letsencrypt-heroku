@@ -43,7 +43,7 @@ let getCertificate = async(options => {
       url:    'sni-endpoints',
     }))[0];
     let endpointSpec = '';
-    if (endpoint.length) {
+    if (endpoint) {
       endpointSpec = `/${endpoint.id}`;
       log.info('Adding Heroku certificate');
     }
