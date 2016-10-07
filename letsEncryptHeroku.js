@@ -26,6 +26,8 @@ let getCertificate = async(options => {
       url:    '/domains',
     }));
 
+    // Unset the server, because it breaks lets encrypt
+    delete options.server;
     options.domains = domains
     .filter(d => d.kind === 'custom')
     .map(d => d.hostname)
@@ -85,6 +87,6 @@ module.exports = options => {
     LetsEncrypt.stagingServerUrl
   ;
   let letsencrypt = LetsEncrypt.create({server});
-  getCertificate(Object.assign({}, baseOptions, options, {letsencrypt, server}));
+  getCertificate(Object.assign({}, baseOptions, options, {letsencrypt}));
   return letsencrypt.middleware();
 };
