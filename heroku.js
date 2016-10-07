@@ -36,16 +36,14 @@ class Heroku {
     return new Promise((resolve, reject) => {
       let url = `https://api.heroku.com/apps/${this.app}/${options.url}`
       .replace(/([^:]\/)(?:\/+|$)/g, '$1');
-      let query = {
-        body:    options.body || {},
-        json:    true,
-        method:  options.method || 'GET',
-        url:     url,
+      let query = Object.assign({}, {
         headers: {
-          Authorization: `Bearer ${this.apiKey}`,
           Accept:        'application/vnd.heroku+json; version=3',
+          Authorization: `Bearer ${this.apiKey}`,
         },
-      };
+        json:   true,
+        method: 'GET',
+      }, options, {url: url});
       log.debug(query);
 
       request(query, (error, response) => {

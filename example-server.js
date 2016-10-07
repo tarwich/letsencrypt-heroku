@@ -1,60 +1,28 @@
 'use strict';
 
-const chalk       = require('chalk');
-const Heroku      = require('./heroku');
-const http        = require('http');
-const LetsEncrypt = require('letsencrypt');
-const log         = require('log')('example-server');
+// Libraries
+const letsEncryptHeroku = require('letsEncryptHeroku');
+const express           = require('express');
 
-const options = {
-  server:         'staging',
-  email:          'tarwich@gmail.com',
-  agreeTos:       true,
-  domains:        ['test.voidray.co'],
-  approveDomains: ['test.voidray.co'],
-};
+// Variables
+const app = express();
 
-const letsencrypt = LetsEncrypt.create(options);
-let port = process.env.PORT || 8080;
-
-let app = (request, response) => {
-  response.send('It is alive');
-};
-
-http.createServer(letsencrypt.middleware(app))
-.listen(port, function() {
-  console.log('Handling ACME challenges and serving https');
+app.use((request, response) => {
+  response.send('It\'s alive!');
 });
 
-const heroku = new Heroku({
-  app:    'voidray-test',
-  apiKey: process.env.API_KEY,
-});
-
-letsencrypt.register(options)
-.then(certs => {
-  return heroku.request({
-    method: 'GET',
-    url:    'sni-endpoints',
-  })
-  .then(result => {
-    let endpointSpec = '';
-    if (result.length) endpointSpec = `/${result[0].id}`;
-    log.info('Updating certificate');
-
-    return heroku.request({
-      method: result.length ? 'PATCH' : 'POST',
-      url:    '/sni-endpoints' + endpointSpec,
-      body:   {
-        private_key:       certs.privkey,
-        certificate_chain: certs.cert,
-      },
-    })
-    .then(result => {
-      if (result) log.info('Certificate updated %s', chalk.green('[OK]'));
-    });
-  });
+letsEncryptHeroku({
+  apiKey:     process.env.API_KEY,
+  appName:    'voidray-test',
+  email:      process.env.LETSENCRYPT_EMAIL,
+  expressApp: app,
 })
-.catch(error => {
-  log.error(error.stack || error);
+.then(wrapperApp => {
+  // Run the server
+  let server = wrapperApp.listen(process.env.PORT || 8080, () => {
+    let href = server.address();
+    if (href.family === 'IPv6') href = `http://[${href.address}]:${href.port}/`;
+    else href = `http://${href.address}:${href.port}/`;
+    console.log('Server running at ' + href);
+  });
 });

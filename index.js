@@ -1,3 +1,3 @@
 'use strict';
 
-require('./example-server');
+module.exports = require('./letsEncryptHeroku');
