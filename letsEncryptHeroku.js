@@ -19,20 +19,20 @@ let getCertificate = async(options => {
       app:    options.appName,
     });
 
+    // Unset the server, because it breaks lets encrypt
+    delete options.server;
+
     // Get domains
     let domains = wait(heroku.request({
       method: 'GET',
       qs:     {kind: 'custom'},
       url:    '/domains',
-    }));
-    log.info('Heroku domains', domains);
-
-    // Unset the server, because it breaks lets encrypt
-    delete options.server;
-    options.domains = domains
+    }))
     .filter(d => d.kind === 'custom')
     .map(d => d.hostname)
     ;
+    log.info('Heroku domains', domains);
+    options.domains = domains;
     options.approveDomains = domains;
     assert(options.domains.length, 'You need to setup a custom domain in Heroku');
 
