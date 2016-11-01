@@ -22,7 +22,7 @@ let getCertificate = options => co(function * () {
     delete options.server;
 
     // Get domains
-    let domains = yield (heroku.request({
+    let domains = (yield heroku.request({
       method: 'GET',
       qs:     {kind: 'custom'},
       url:    '/domains',
@@ -36,7 +36,7 @@ let getCertificate = options => co(function * () {
     assert(options.domains.length, 'You need to setup a custom domain in Heroku');
 
     // Get certs from letsencrypt
-    let certs = yield (options.letsencrypt.register(options));
+    let certs = yield options.letsencrypt.register(options);
     // Find out if there is a Heroku cert already
     let endpoint = (yield heroku.request({
       method: 'GET',
