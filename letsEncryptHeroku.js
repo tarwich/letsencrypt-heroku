@@ -22,11 +22,11 @@ let getCertificate = options => co(function * () {
     delete options.server;
 
     // Get domains
-    let domains = (yield heroku.request({
+    let domains = ((yield heroku.request({
       method: 'GET',
       qs:     {kind: 'custom'},
       url:    '/domains',
-    }))
+    })) || [])
     .filter(d => d.kind === 'custom')
     .map(d => d.hostname)
     ;
