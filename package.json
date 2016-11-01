@@ -16,13 +16,12 @@
   "license": "MIT",
   "dependencies": {
     "asyncawait": "1.0.6",
-    "eslint-config-tarwich": "github:tarwich/eslint-config-tarwich#v1.3",
     "express": "4.14.0",
     "letsencrypt": "2.1.7",
     "log": "github:tarwich/node-log",
     "request-promise": "4.1.1"
   },
   "devDependencies": {
-    "express": "4.14.0"
+    "eslint-config-tarwich": "github:tarwich/eslint-config-tarwich#v1.3"
   }
 }
