@@ -1,8 +1,7 @@
 'use strict';
 
 const assert      = require('assert');
-const async       = require('asyncawait/async');
-const wait        = require('asyncawait/await');
+const co          = require('co');
 const Heroku      = require('./heroku');
 const LetsEncrypt = require('letsencrypt');
 const log         = require('log')('example-server');
@@ -12,7 +11,7 @@ const baseOptions = {
   server:   LetsEncrypt.stagingServerUrl,
 };
 
-let getCertificate = async(options => {
+let getCertificate = options => co(function * () {
   try {
     const heroku = new Heroku({
       apiKey: options.apiKey,
@@ -23,7 +22,7 @@ let getCertificate = async(options => {
     delete options.server;
 
     // Get domains
-    let domains = wait(heroku.request({
+    let domains = yield (heroku.request({
       method: 'GET',
       qs:     {kind: 'custom'},
       url:    '/domains',
@@ -37,9 +36,9 @@ let getCertificate = async(options => {
     assert(options.domains.length, 'You need to setup a custom domain in Heroku');
 
     // Get certs from letsencrypt
-    let certs = wait(options.letsencrypt.register(options));
+    let certs = yield (options.letsencrypt.register(options));
     // Find out if there is a Heroku cert already
-    let endpoint = wait(heroku.request({
+    let endpoint = (yield heroku.request({
       method: 'GET',
       url:    'sni-endpoints',
     }))[0];
@@ -49,7 +48,7 @@ let getCertificate = async(options => {
       log.info('Adding Heroku certificate');
     }
     else log.info('Updating Heroku certificate');
-    wait(heroku.request({
+    (yield heroku.request({
       body: {
         certificate_chain: certs.cert + '\n' + certs.chain,
         private_key:       certs.privkey,

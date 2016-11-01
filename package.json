@@ -15,7 +15,7 @@
   "author": "Samuel Dillow",
   "license": "MIT",
   "dependencies": {
-    "asyncawait": "1.0.6",
+    "co": "4.6.0",
     "express": "4.14.0",
     "letsencrypt": "2.1.7",
     "log": "github:tarwich/node-log",
@@ -23,5 +23,13 @@
   },
   "devDependencies": {
     "eslint-config-tarwich": "github:tarwich/eslint-config-tarwich#v1.3"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tarwich/letsencrypt-heroku.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tarwich/letsencrypt-heroku/issues"
+  },
+  "homepage": "https://github.com/tarwich/letsencrypt-heroku#readme"
 }
